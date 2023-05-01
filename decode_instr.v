@@ -4,7 +4,7 @@
 //Table 5.1.3: mod flag encoding
 //mod bits 	description 	range of values
 //	0-1 		mod.mem flag 		0-3
-//	2-3 		mod.shift flag 	0-3
+//	2-3 		mod.shift flag   	0-3
 //	4-7 		mod.cond flag 		0-15
 module decode_instr(
 	input [63:0] instr_i,
@@ -22,11 +22,11 @@ module decode_instr(
 	output [31:0] imm32_o
 	);
 	
-	assign op_o = instr_i[7:0];
+	assign op_o  = instr_i[7:0];
 	assign dst_o = instr_i[15:8];
 	assign src_o = instr_i[23:16];
+	
 	// mod
-
 	assign imm32_o = instr_i[63:32];
 
 endmodule

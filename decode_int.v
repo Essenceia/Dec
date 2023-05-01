@@ -1,32 +1,14 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    23:26:46 11/03/2021 
-// Design Name: 
-// Module Name:    decode_int 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module decode_int_lt_64(
 	input [5:0] op_i, // for int lt 64, op is encoded on lower 5 bits
    
-	output add_rs_o,
-	output add_m_o,
-	output sub_r_o,
-	output sub_m_o,
-	output mul_r_o,
-	output mul_m_o
+	output      add_rs_o,
+	output      add_m_o,
+	output      sub_r_o,
+	output      sub_m_o,
+	output      mul_r_o,
+	output      mul_m_o
 	);
 	wire mid_ge_7;
 	wire lsb_ge_8;  
@@ -52,10 +34,10 @@ module decode_int_lt_64(
 	               | ( le_32 & ~op_i[3]  & ~lsb_ge_8 );
 	
 	assign sub_m_o = le_32  // 0010_XXXX & ( XXXX_0111 | ( XXXX_1XXX & ~XXXX_X11X ) ) 
-					   & ( ~op_i[3] ? lsb_ge_8 : ~mid_ge_7 );// 10_XXXX & (  XXXX_X111 | ( XX_1XXX & ~XX_X110 ) )
+				   & ( ~op_i[3] ? lsb_ge_8 : ~mid_ge_7 );// 10_XXXX & (  XXXX_X111 | ( XX_1XXX & ~XX_X110 ) )
 	// mul
 	assign mul_r_o = (le_32 & op_i[3] & mid_ge_7)
-					   | (ge_48 & ~lsb_ge_14);// 10_111X | (11_XXXX & ~XX_111X )
+				   | (ge_48 & ~lsb_ge_14);// 10_111X | (11_XXXX & ~XX_111X )
 						
 	assign mul_m_o = ge_48 & lsb_ge_14; // 11_111X
 endmodule
@@ -64,18 +46,18 @@ endmodule
 module decode_int_ge_64(
 	input [5:0] op_i, // for int lt 64, op is encoded on lower 5 bits
    
-	output mul_m_o,
-	output mulh_r_o,
-	output mulh_m_o,
-	output smulh_r_o,
-	output smulh_m_o,
-	output mul_rcp_o,
-	output neg_r_o,
-	output xor_r_o,
-	output xor_m_o,
-	output rolr_o,
-	output roll_o,
-	output swap_r_o
+	output      mul_m_o,
+	output      mulh_r_o,
+	output      mulh_m_o,
+	output      smulh_r_o,
+	output      smulh_m_o,
+	output      mul_rcp_o,
+	output      neg_r_o,
+	output      xor_r_o,
+	output      xor_m_o,
+	output      rolr_o,
+	output      roll_o,
+	output      swap_r_o
 	);
 	wire le_48;
 	wire le_32;
@@ -90,16 +72,16 @@ module decode_int_ge_64(
 	wire zeros_3_2;
 	
 	
-	assign le_48 =  op_i[5] &  op_i[4];   // 11_XXXX
-	assign le_32 =  op_i[5] & ~op_i[4];   // 10_XXXX
-	assign le_16 = ~op_i[5] &  op_i[4];   // 01_XXXX
-	assign le_15 = ~op_i[5] & ~op_i[4];   // 00_XXXX
-	assign le_7 = le_15 & ~op_i[3];       // 00_0XXX
-	assign le_3 = le_7 & ~op_i[2];        // 00_00XX
-	assign lsb_ge_6  = op_i[2] & op_i[1]; // XX_X11X
-	assign lsb_ge_4 = op_i[2] & ~op_i[1]; // XX_X10X
-	assign lsb_ge_3  = op_i[1] & op_i[0]; // XX_XX11
-	assign lsb_ge_10 = op_i[3] & ~op_i[2];// XX_10XX 
+	assign le_48 =  op_i[5] &  op_i[4];     // 11_XXXX
+	assign le_32 =  op_i[5] & ~op_i[4];     // 10_XXXX
+	assign le_16 = ~op_i[5] &  op_i[4];     // 01_XXXX
+	assign le_15 = ~op_i[5] & ~op_i[4];     // 00_XXXX
+	assign le_7  = le_15 & ~op_i[3];        // 00_0XXX
+	assign le_3  = le_7 & ~op_i[2];         // 00_00XX
+	assign lsb_ge_6  = op_i[2] & op_i[1];   // XX_X11X
+	assign lsb_ge_4  = op_i[2] & ~op_i[1];  // XX_X10X
+	assign lsb_ge_3  = op_i[1] & op_i[0];   // XX_XX11
+	assign lsb_ge_10 = op_i[3] & ~op_i[2];  // XX_10XX 
 	assign zeros_3_2 = ~op_i[3] & ~op_i[2]; // XX_00XX
 	
 	// mul
@@ -116,49 +98,48 @@ module decode_int_ge_64(
 	assign neg_r_o = ~op_i[5] & op_i[4] & ~op_i[3] & lsb_ge_4;// 01_010X
 	// xor
 	assign xor_r_o = (le_16 & ((~op_i[3] & lsb_ge_6) | op_i[3])) // ( 01_XXXX & ( 011X | 1XXX )) | ( 10_0XXX & ( 0XX | 100 ))
-						| (le_32 & ~op_i[3] & ( ~op_i[2] | (lsb_ge_4 & ~op_i[0])));
+			       | (le_32 & ~op_i[3] & ( ~op_i[2] | (lsb_ge_4 & ~op_i[0])));
 	assign xor_m_o = le_32 
-						& ( ((~op_i[3] & op_i[2]) & ~(~op_i[1] & ~op_i[0]))
-							| (lsb_ge_10 & ~op_i[1]) ); // 10_XXXX & ( ( 01XX & ~01 ) | 100X )
+				   & ( ((~op_i[3] & op_i[2]) & ~(~op_i[1] & ~op_i[0]))
+				   | (lsb_ge_10 & ~op_i[1]) ); // 10_XXXX & ( ( 01XX & ~01 ) | 100X )
 	// rol right / left
 	assign rolr_o = ( (le_32 & op_i[3]) & ~( ~op_i[2] & ~op_i[1] )) // ( 10_1XXX & ~00X ) | 11_000X
-						| ( le_48 & zeros_3_2 & ~op_i[1] );
+				  | ( le_48 & zeros_3_2 & ~op_i[1] );
 	assign roll_o = le_48 & zeros_3_2 & op_i[1];// 11_001X 
 	// swap 
 	assign swap_r_o = le_48 & ~op_i[3] & op_i[2];// 11_01XX
 endmodule
 
 module decode_int(
-// input        op_v_i,
-	input [6:0]  op_i, // for int, op is encoded on lower 6 bits
+	input [6:0] op_i, // for int, op is encoded on lower 6 bits
    
 	// addition
-	output add_rs_o,
-	output add_m_o,
+	output      add_rs_o,
+	output      add_m_o,
 	// substract
-	output sub_r_o,
-	output sub_m_o,
+	output      sub_r_o,
+	output      sub_m_o,
 	// multiply
-	output mul_m_o,
-	output mul_r_o,
+	output      mul_m_o,
+	output      mul_r_o,
 	// multiply higher bit
-	output mulh_r_o,
-	output mulh_m_o,
+	output      mulh_r_o,
+	output      mulh_m_o,
 	// multiply higher bit signed
-	output smulh_r_o,
-	output smulh_m_o,
+	output      smulh_r_o,
+	output      smulh_m_o,
 	// multiply rcp
-	output mul_rcp_o,
+	output      mul_rcp_o,
 	// negative
-	output neg_r_o,
+	output      neg_r_o,
 	// xor
-	output xor_r_o,
-	output xor_m_o,
+	output      xor_r_o,
+	output      xor_m_o,
 	// rotate left, right
-	output rolr_o,
-	output roll_o,
+	output      rolr_o,
+	output      roll_o,
 	// swap src and dst
-	output swap_r_o	 
+	output      swap_r_o	 
 	 );
 	
 	wire [5:0] op_sub_lt64;

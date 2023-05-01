@@ -24,20 +24,20 @@ module pf_decode_mem_addr(
 	
 	// check if request is l2 or l3
 	// ---
-	// src == dst (read) 	L3
-	// mod.cond >= 14 (write) 	L3
-	// mod.mem == 0 	L2
-	// mod.mem != 0 	L1
+	// src == dst (read) 	  L3
+	// mod.cond >= 14 (write) L3
+	// mod.mem == 0           L2
+	// mod.mem != 0           L1
 	// ---
-	//	mod bits 	description 	range of values
-	// 0-1 	mod.mem flag 	   0-3
-	// 2-3 	mod.shift flag 	0-3
-	// 4-7 	mod.cond flag   	0-15
-	assign mod_mem   = mod_i[1:0];
-	assign mod_cond  = mod_i[7:4];
-	assign cond_ge14 = mod_cond[3] & mod_cond[2] & mod_cond[1];// 111X
-	assign mem_gt0   = |mod_mem; // or reduction 
-	assign store_v =  instr_i[7] & instr_i[6] & instr_i[5] & instr_i[4];// 1111_XXXX
+	// mod bits 	description    range of values
+	//    0-1 	    mod.mem flag         0-3
+	//    2-3    	mod.shift flag       0-3
+	//    4-7   	mod.cond flag   	 0-15
+	assign mod_mem    = mod_i[1:0];
+	assign mod_cond   = mod_i[7:4];
+	assign cond_ge14  = mod_cond[3] & mod_cond[2] & mod_cond[1];// 111X
+	assign mem_gt0    = |mod_mem; // or reduction 
+	assign store_v    =  instr_i[7] & instr_i[6] & instr_i[5] & instr_i[4];// 1111_XXXX
 	assign srq_eq_dst = src_i == dst_i;
 	// L3
 	assign l3_v = ~store_v ? srq_eq_dst : cond_ge14;

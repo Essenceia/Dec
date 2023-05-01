@@ -19,9 +19,9 @@ module decode_scratchpad_level(
 	assign mem_neq0  = |mod_mem_i; // or reduction 
 	
 	assign l3_v = ( store_v_i & cond_ge14 ) // write
-					| (~store_v_i & src_eq_dst_i);
+				| (~store_v_i & src_eq_dst_i);
 	// output, level selection				
-	assign sp_lvl_o[2] =  l3_v; 				  // L3
+	assign sp_lvl_o[2] =  l3_v;             // L3
 	assign sp_lvl_o[1] = ~l3_v &  mem_neq0; // L2
 	assign sp_lvl_o[0] = ~l3_v & ~mem_neq0; // L1
 endmodule
@@ -40,16 +40,14 @@ module decode_op_type(
 	assign is_int_o = ~op_i[7] & ~( &(op_i[6:3]) );
 	// [ 0111_1100 -> 1101_0101 ] 
 	assign is_float_o = ( op_i[7] | ( ~op_i[7] & &(op_i[6:3])) ) // lower bound
-						 & ~is_ctl;
+					  & ~is_ctl;
 	// [ 1101_0110 -> 1111_1111 ]
 	assign is_ctl = op_i[7] & op_i[6]
-						& ( op_i[5] // over 224 111X_XXXX
-						   | ( ~op_i[5] & op_i[4] & (
-								( ~op_i[3] & op_i[2] & op_i[1] ) // 1101_011X
-								| (op_i[3]) // 1101_1XXX
-								)
-							)
-						);
+					& ( op_i[5] // over 224 111X_XXXX
+					   | ( ~op_i[5] & op_i[4] 
+						 & ( ( ~op_i[3] & op_i[2] & op_i[1] ) // 1101_011X
+						   | (op_i[3]) // 1101_1XXX
+			               )));
 	assign is_ctl_o = is_ctl;
 endmodule
 
@@ -61,6 +59,7 @@ module decode_src_register(
 	input        is_float_i,
 	input [2:0]  src_i,
 	input        float_m_v_i,
+
 	output [2:0] src_o,
 	output       src_reg_o // 0 : R, 1: A
 	);
@@ -76,6 +75,7 @@ module decode_dst_register(
 	input        fmul_r_i,
 	input        fdiv_m_i,
 	input        fsqrt_r_i,
+
 	output [1:0] dst_reg_o, // 0 : R, 1: A, 2: E, 3: F
 	output [2:0] dst_o
 	);
@@ -113,40 +113,39 @@ endmodule
 // ---------- 
 // verified
 module decode_top(
-	input [63:0] instr_i,
+	input [63:0]   instr_i,
 
 	// int
-	output iadd_v_o,
-	output iadd_sub_o,
-	output iadd_neg_o,
-	output iadd_rs_v_o,
-	output imul_v_o,
-	output imul_shift_o,
-	output imul_signed_o,
-	output imul_rcp_v_o,
-	output irol_v_o,
-	output irol_left_o,
-	output ixor_v_o,
-	output iswap_v_o,  
+	output         iadd_v_o,
+	output         iadd_sub_o,
+	output         iadd_neg_o,
+	output         iadd_rs_v_o,
+	output         imul_v_o,
+	output         imul_shift_o,
+	output         imul_signed_o,
+	output         imul_rcp_v_o,
+	output         irol_v_o,
+	output         irol_left_o,
+	output         ixor_v_o,
+	output         iswap_v_o,  
 	// float
-	output fswap_v_o,
-	output fadd_v_o,
-	output fadd_sub_o,
-	output fscal_v_o,
-	output fmul_v_o,
-	output fdiv_v_o,
-	output fsqrt_v_o,
+	output        fswap_v_o,
+	output        fadd_v_o,
+	output        fadd_sub_o,
+	output        fscal_v_o,
+	output        fmul_v_o,
+	output        fdiv_v_o,
+	output        fsqrt_v_o,
 	// ctrl
-	output cfround_v_o,
-	output cbranch_v_o,
-	output istore_v_o, 
-	
+	output        cfround_v_o,
+	output        cbranch_v_o,
+	output        istore_v_o, 
 	
 	// dst
-	output       dst_v_o, // dst valid used, only false for select ctrl instructions
-	output       dst_f_v_o,
-	output [1:0] dst_reg_o,
-	output [2:0] dst_o,
+	output        dst_v_o, // dst valid used, only false for select ctrl instructions
+	output        dst_f_v_o,
+	output [1:0]  dst_reg_o,
+	output [2:0]  dst_o,
 	
 	// mem
 	output        mem_v_o,
@@ -154,13 +153,13 @@ module decode_top(
 	output [2:0]  sp_lvl_o,
 	
 	// src
-	output       src_v_o,
-	output       src_f_v_o,
-	output       src_reg_o, // 0: R, 1: A
-	output [2:0] src_o,
+	output        src_v_o,
+	output        src_f_v_o,
+	output        src_reg_o, // 0: R, 1: A
+	output [2:0]  src_o,
 	// src (int)
-	output       isrc_override_v_o, // src register override, cancel register read
-	output       isrc_override_o,   // 0: imm32 , 1: same as dst value
+	output        isrc_override_v_o, // src register override, cancel register read
+	output        isrc_override_o,   // 0: imm32 , 1: same as dst value
 	
 	// mod 
 	output [1:0]  mod_shift_o,// used in int add rs
@@ -383,12 +382,12 @@ module decode_top(
 	// mul rcp 
 	assign imul_rcp_v_o  = is_int & imul_rcp;
 	// roll
-	assign irol_v_o	   = is_int & ( iroll | irolr );
+	assign irol_v_o	     = is_int & ( iroll | irolr );
 	assign irol_left_o   = iroll;
 	// ixor
-	assign ixor_v_o 	   = is_int & ( ixor_r | ixor_m );
+	assign ixor_v_o 	 = is_int & ( ixor_r | ixor_m );
 	// swap 
-	assign iswap_v_o 	   = is_int & iswap_r;
+	assign iswap_v_o 	 = is_int & iswap_r;
 	
 	// float
 	//
@@ -422,13 +421,13 @@ module decode_top(
 
 	// mem
 	assign mem_v_o   = ( is_int & isrc_mem_v  ) // int
-						  | cbranch;                 // ctrl
+				     | cbranch;                 // ctrl
 	assign mem_f_v_o = is_float & fsrc_mem_v; // float					
 	assign sp_lvl_o  = sp_lvl; // scratchpad lvl
 	
 	// src
 	assign src_v_o   = ( is_int & isrc_reg_v & ~isrc_override_v ) // int
-					     | ( cfround | cstore ); 								// ctr
+					 | ( cfround | cstore ); 			          // ctr
 	assign src_f_v_o = is_float & fsrc_reg_v; // float
 	assign src_reg_o = src_reg;
 	assign src_o     = src;

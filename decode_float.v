@@ -1,29 +1,11 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    19:53:15 11/04/2021 
-// Design Name: 
-// Module Name:    decode_float 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module decode_float_lt_128(
 	input [6:2] op_i,
 	// swap
-	output swap_r_o,
+	output      swap_r_o,
 	// add
-	output add_r_o
+	output      add_r_o
 	);
 	wire lsb_ge_120;
 	assign lsb_ge_120 = op_i[6] & op_i[5] & op_i[4] & op_i[3];
@@ -35,22 +17,21 @@ endmodule
 module decode_float_lsb_ge_128(
 	input [6:0] op_i,
 	// add
-	output add_r_o,
-	output add_m_o,
-	// sub
-	output sub_r_o,
-	output sub_m_o,
+	output      add_r_o,
+	output      add_m_o,
+	// sub     
+	output      sub_r_o,
+	output      sub_m_o,
 	// scal
-	output scal_r_o,
-	// mul
-	output mul_r_o,
+	output      scal_r_o,
+	// mul     
+	output      mul_r_o,
 	// div
-	output div_m_o,
+	output      div_m_o,
 	// squaer root
-	output sqrt_r_o
+	output      sqrt_r_o
 	);
 	wire zeros_2_1;
-	
 	wire zeros_2_1_0;
 	wire zeros_3_2_1;
 	wire zeros_6_5_4;
@@ -74,21 +55,21 @@ module decode_float_lsb_ge_128(
 	assign lsb_ge_32 = op_i[5] & ~op_i[4];     // XX10_XXXX
 	assign ge_32     = zeros_6 & lsb_ge_32;    // X010_XXXX
 	assign ge_96_lite = op_i[6] & ~op_i[5];    // 10X_XXXX
-	assign ge_96     = ge_96_lite &  ~op_i[4]; // 100_XXXX
+	assign ge_96      = ge_96_lite & ~op_i[4]; // 100_XXXX
 	// add
 	assign add_r_o = zeros_6_5_4 & ( ~op_i[3] | lsb_ge_8 ) ;// 000_XXXX & ( 0XXX | 10XX  ) 
 	assign add_m_o = zeros_6_5 & ((~op_i[4] & lsb_ge_12) | (op_i[4] & ~op_i[3] & zeros_2_1_0));
 	// sub
 	assign sub_r_o = zeros_6 
-						& ( ( ~op_i[5] & op_i[4] & ~(zeros_3_2_1 & ~op_i[0]))
-							| ( lsb_ge_32 & zeros_3_2_1 & ~op_i[0]) );// 10XX_XXXX & ( ( 01_XXXX & ~0001) | 10_0000 )
+				   &  ( ( ~op_i[5] & op_i[4] & ~(zeros_3_2_1 & ~op_i[0]))
+					  | ( lsb_ge_32 & zeros_3_2_1 & ~op_i[0]) );// 10XX_XXXX & ( ( 01_XXXX & ~0001) | 10_0000 )
 	assign sub_m_o = ge_32 & ~op_i[3] & ~zeros_2_1_0 & ~lsb_ge_6; // 010_0XXX & ~000 & ~11X
  	// rscal
 	assign scal_r_o = ge_32 & ( ( ~op_i[3] & lsb_ge_6 ) | lsb_ge_8); // 010_XXXX &  ( 011X | 10XX )
 	// mul
 	assign mul_r_o = ( ge_32 & lsb_ge_12 ) 
-						| ( ~op_i[6] & op_i[5] & op_i[4] )
-						| ( ge_96 & ~lsb_ge_12);  // 010_11XX | 011_XXXX |( 100_XXXX & ~11XX )
+					| ( ~op_i[6] & op_i[5] & op_i[4] )
+					| ( ge_96 & ~lsb_ge_12);  // 010_11XX | 011_XXXX |( 100_XXXX & ~11XX )
 	// div
 	assign div_m_o = ge_96 & lsb_ge_12;// 100_11XX
 	// sqrt
@@ -98,21 +79,21 @@ endmodule
 module decode_float(
 	input [7:0] op_i,
 
-	output swap_r_o,
-	// add
-	output add_r_o,
-	output add_m_o,
-	// sub
-	output sub_r_o,
-	output sub_m_o,
+	output      swap_r_o,
+	// add     
+	output      add_r_o,
+	output      add_m_o,
+	// sub     
+	output      sub_r_o,
+	output      sub_m_o,
 	// scal
-	output scal_r_o,
-	// mul
-	output mul_r_o,
-	// div
-	output div_m_o,
+	output      scal_r_o,
+	// mul     
+	output      mul_r_o,
+	// div     
+	output      div_m_o,
 	// squaer root
-	output sqrt_r_o
+	output      sqrt_r_o
    );
 	wire       op_ge128_v;
 	wire [6:2] op_lt128; 
