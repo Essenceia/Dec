@@ -419,7 +419,7 @@ module dec(
 
 	// mem
 	assign mem_v_o   = ( is_int & isrc_mem_v  ) // int
-				     | cbranch;                 // ctrl
+				     | cbranch;                 // ctrl TODO : can't recall why I did this, contradicts the tb assertion 
 	assign mem_f_v_o = is_float & fsrc_mem_v; // float					
 	assign sp_lvl_o  = sp_lvl; // scratchpad lvl
 	

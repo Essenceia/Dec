@@ -1,30 +1,3 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   00:26:34 11/13/2021
--- Design Name:   
--- Module Name:   /home/ise/Documents/decode/decode_top_test.vhd
--- Project Name:  decode
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: decode_top
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 use ieee.numeric_std.all;
@@ -39,7 +12,7 @@ ARCHITECTURE behavior OF decode_top_test IS
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT decode_top
+    COMPONENT dec
     PORT(
          instr_i : IN  std_logic_vector(63 downto 0);
          iadd_v_o : OUT  std_logic;
@@ -72,7 +45,6 @@ ARCHITECTURE behavior OF decode_top_test IS
          
 		 mem_v_o : OUT  std_logic;
 		 mem_f_v_o : OUT  std_logic;
-         --  mem_o : OUT  std_logic_vector(32 downto 0);
 		sp_lvl_o : OUT  std_logic_vector(2 downto 0);
          
 		src_v_o : OUT  std_logic;
@@ -123,7 +95,6 @@ ARCHITECTURE behavior OF decode_top_test IS
 	 
 	signal mem_v_o : std_logic;
 	signal mem_f_v_o : std_logic;
-	signal mem_o : std_logic_vector(32 downto 0);
 	signal sp_lvl_o : std_logic_vector(2 downto 0);
 	 
 	signal src_v_o : std_logic;
@@ -161,7 +132,7 @@ ARCHITECTURE behavior OF decode_top_test IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-	uut: decode_top PORT MAP (
+	uut: dec PORT MAP (
 		instr_i => instr_i,
 		iadd_v_o => iadd_v_o,
 		iadd_sub_o => iadd_sub_o,

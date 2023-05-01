@@ -6,7 +6,30 @@ Decoder logic, output is returned withing the same clock cycle.
 
 ## Instructions 
 
+Instructions are of a fix lenght of 64 bits and all use the same following structure : 
+
+![Instruction structure!](/doc/enc.png)
+
+- `opcode` [7:0], opcode mapping to the instruction type
+
+- `dst` [15:8], index of the destination register
+
+- `src` [23:16], index of the source register
+
+- `imm32` [63:32], flag used in a subset of instructions
+
+Note : We are not using the term address for `dst` and `src` as it is are not the full address.
+    Depending on the instruction we use different register groups for `dst` and `src` with the choice between 
+    64 bit wide `R` group and 128 bit wide `F`, `E` and `A`. 
+
+### Opcodes 
+The opcode of identify each instruction are coded on 8 bits with multiple values mapping onto the same instruction.
+
+As instructions are generated at random each of the opcode values [0;255] has the same probability of occuring, as such, 
+the occurence rate of each instruction depends on the number of different opcodes that map to it :
+
 ![Occurence rate of instructions!](/doc/plot/instr.png)
+
 
 ## RTL 
 
