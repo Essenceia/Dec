@@ -27,5 +27,5 @@
 |FDIV_M|E|R||(dst0, dst1) = (dst0 / [mem][0], dst1 / [mem][1])|204|207|11001100|11001111|8'b110011XX||
 |FSQRT_R|E|-||(dst0, dst1) = (√dst0, √dst1)|208|213|11010000|11010101|1101_0000 -> 1101_0101 : 1101_XXXX & ( 0XXX & ~X11X )||
 |CFROUND|-|R||fprc = src >>> imm32|214|214|11010110|11010110|8'b11010110|1101_0110 -> 1111_1111|
-|CBRANCH|R|-||dst = dst + cimm| conditional jump|215|239|11010111|11101111|1101_0111 -> 1110_1111  :11XX_XXXX  &  ( ( 01_XXXX & ( 1XXX \| 0111 ) ) \|  10_XXXX ) ||
+|CBRANCH|R|-||dst = dst + cimm (conditional jump)|215|239|11010111|11101111|1101_0111 -> 1110_1111  :11XX_XXXX  &  ( ( 01_XXXX & ( 1XXX \| 0111 ) ) \|  10_XXXX ) ||
 |ISTORE|R|R||[mem] = src|240|255|11110000|11111111|8'b1111XXXX||
