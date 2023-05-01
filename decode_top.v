@@ -1,7 +1,5 @@
 `timescale 1ns / 1ps
 
-// decoder for the randomX vm
-// 
 // deduce the scratchpad level the memory access read/write is targetting
 module decode_scratchpad_level(
 	input       src_eq_dst_i,
@@ -112,7 +110,7 @@ endmodule
 // DECODE TOP 
 // ---------- 
 // verified
-module decode_top(
+module dec(
 	input [63:0]   instr_i,
 
 	// int

@@ -65,18 +65,18 @@ ARCHITECTURE behavior OF decode_top_test IS
          cbranch_v_o : OUT  std_logic;
          istore_v_o : OUT  std_logic;
          
-			dst_v_o : OUT  std_logic;
-			dst_f_v_o : OUT  std_logic;
+		 dst_v_o : OUT  std_logic;
+		 dst_f_v_o : OUT  std_logic;
          dst_reg_o : OUT  std_logic_vector(1 downto 0);
          dst_o : OUT  std_logic_vector(2 downto 0);
          
-			mem_v_o : OUT  std_logic;
-			mem_f_v_o : OUT  std_logic;
-       --  mem_o : OUT  std_logic_vector(32 downto 0);
-         sp_lvl_o : OUT  std_logic_vector(2 downto 0);
+		 mem_v_o : OUT  std_logic;
+		 mem_f_v_o : OUT  std_logic;
+         --  mem_o : OUT  std_logic_vector(32 downto 0);
+		sp_lvl_o : OUT  std_logic_vector(2 downto 0);
          
-			src_v_o : OUT  std_logic;
-			src_f_v_o : OUT  std_logic;
+		src_v_o : OUT  std_logic;
+		src_f_v_o : OUT  std_logic;
          src_reg_o : OUT  std_logic;
          src_o : OUT  std_logic_vector(2 downto 0);
          isrc_override_v_o : OUT  std_logic;
@@ -89,60 +89,60 @@ ARCHITECTURE behavior OF decode_top_test IS
     END COMPONENT;
     
 
-   --Inputs
-   signal instr_i : std_logic_vector(63 downto 0) := (others => '0');
-
- 	--Outputs
-   signal iadd_v_o : std_logic;
-   signal iadd_sub_o : std_logic;
-   signal iadd_neg_o : std_logic;
-   signal iadd_rs_v_o : std_logic;
-   signal imul_v_o : std_logic;
-   signal imul_shift_o : std_logic;
-   signal imul_signed_o : std_logic;
-   signal imul_rcp_v_o : std_logic;
-   signal irol_v_o : std_logic;
-   signal irol_left_o : std_logic;
-   signal ixor_v_o : std_logic;
-   signal iswap_v_o : std_logic;
-   signal fswap_v_o : std_logic;
-   signal fadd_v_o : std_logic;
-   signal fadd_sub_o : std_logic;
-   signal fscal_v_o : std_logic;
-   signal fmul_v_o : std_logic;
-   signal fdiv_v_o : std_logic;
-   signal fsqrt_v_o : std_logic;
-   signal cfround_v_o : std_logic;
-   signal cbranch_v_o : std_logic;
-   signal istore_v_o : std_logic;
+	--Inputs
+	signal instr_i : std_logic_vector(63 downto 0) := (others => '0');
 	
-   signal dst_v_o : std_logic;
+	 --Outputs
+	signal iadd_v_o : std_logic;
+	signal iadd_sub_o : std_logic;
+	signal iadd_neg_o : std_logic;
+	signal iadd_rs_v_o : std_logic;
+	signal imul_v_o : std_logic;
+	signal imul_shift_o : std_logic;
+	signal imul_signed_o : std_logic;
+	signal imul_rcp_v_o : std_logic;
+	signal irol_v_o : std_logic;
+	signal irol_left_o : std_logic;
+	signal ixor_v_o : std_logic;
+	signal iswap_v_o : std_logic;
+	signal fswap_v_o : std_logic;
+	signal fadd_v_o : std_logic;
+	signal fadd_sub_o : std_logic;
+	signal fscal_v_o : std_logic;
+	signal fmul_v_o : std_logic;
+	signal fdiv_v_o : std_logic;
+	signal fsqrt_v_o : std_logic;
+	signal cfround_v_o : std_logic;
+	signal cbranch_v_o : std_logic;
+	signal istore_v_o : std_logic;
+	 
+	signal dst_v_o : std_logic;
 	signal dst_f_v_o : std_logic;
-   signal dst_reg_o : std_logic_vector(1 downto 0);
-   signal dst_o : std_logic_vector(2 downto 0);
-	
-   signal mem_v_o : std_logic;
+	signal dst_reg_o : std_logic_vector(1 downto 0);
+	signal dst_o : std_logic_vector(2 downto 0);
+	 
+	signal mem_v_o : std_logic;
 	signal mem_f_v_o : std_logic;
-   signal mem_o : std_logic_vector(32 downto 0);
-   signal sp_lvl_o : std_logic_vector(2 downto 0);
-	
-   signal src_v_o : std_logic;
+	signal mem_o : std_logic_vector(32 downto 0);
+	signal sp_lvl_o : std_logic_vector(2 downto 0);
+	 
+	signal src_v_o : std_logic;
 	signal src_f_v_o : std_logic;
-   signal src_reg_o : std_logic;
-   signal src_o : std_logic_vector(2 downto 0);
-   signal isrc_override_v_o : std_logic;
-   signal isrc_override_o : std_logic;
-   signal mod_shift_o : std_logic_vector(1 downto 0);
-   signal mod_cond_o : std_logic_vector(2 downto 0);
-   signal imm32_o : std_logic_vector(31 downto 0);
-	
-	
-   -- No clocks detected in port list. Replace clk below with 
-   -- appropriate port name 
+	signal src_reg_o : std_logic;
+	signal src_o : std_logic_vector(2 downto 0);
+	signal isrc_override_v_o : std_logic;
+	signal isrc_override_o : std_logic;
+	signal mod_shift_o : std_logic_vector(1 downto 0);
+	signal mod_cond_o : std_logic_vector(2 downto 0);
+	signal imm32_o : std_logic_vector(31 downto 0);
+		
+		
+	-- No clocks detected in port list. Replace clk below with 
+	-- appropriate port name 
 	signal op : integer;
 	signal clk : std_logic;
-   constant clk_period : time := 10 ns;
-	
+	constant clk_period : time := 10 ns;
+		
 	-- debug signal
 	signal debug_dst_reg_R : std_logic;
 	signal debug_dst_reg_A : std_logic;
@@ -161,60 +161,59 @@ ARCHITECTURE behavior OF decode_top_test IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: decode_top PORT MAP (
-          instr_i => instr_i,
-          iadd_v_o => iadd_v_o,
-          iadd_sub_o => iadd_sub_o,
-          iadd_neg_o => iadd_neg_o,
-          iadd_rs_v_o => iadd_rs_v_o,
-          imul_v_o => imul_v_o,
-          imul_shift_o => imul_shift_o,
-          imul_signed_o => imul_signed_o,
-          imul_rcp_v_o => imul_rcp_v_o,
-          irol_v_o => irol_v_o,
-          irol_left_o => irol_left_o,
-          ixor_v_o => ixor_v_o,
-          iswap_v_o => iswap_v_o,
-          fswap_v_o => fswap_v_o,
-          fadd_v_o => fadd_v_o,
-          fadd_sub_o => fadd_sub_o,
-          fscal_v_o => fscal_v_o,
-          fmul_v_o => fmul_v_o,
-          fdiv_v_o => fdiv_v_o,
-          fsqrt_v_o => fsqrt_v_o,
-          cfround_v_o => cfround_v_o,
-          cbranch_v_o => cbranch_v_o,
-          istore_v_o => istore_v_o,
-			 
-          dst_v_o => dst_v_o,
-			 dst_f_v_o => dst_f_v_o,
-          dst_reg_o => dst_reg_o,
-          dst_o => dst_o,
-			 
-          mem_v_o => mem_v_o,
-			 mem_f_v_o => mem_f_v_o,
-     --     mem_o => mem_o,
-          sp_lvl_o => sp_lvl_o,
-			 
-          src_v_o => src_v_o,
-			 src_f_v_o => src_f_v_o,
-          src_reg_o => src_reg_o,
-          src_o => src_o,
-          isrc_override_v_o => isrc_override_v_o,
-          isrc_override_o => isrc_override_o,
-          mod_shift_o => mod_shift_o,
-          mod_cond_o => mod_cond_o,
-          imm32_o => imm32_o
+	uut: decode_top PORT MAP (
+		instr_i => instr_i,
+		iadd_v_o => iadd_v_o,
+		iadd_sub_o => iadd_sub_o,
+		iadd_neg_o => iadd_neg_o,
+		iadd_rs_v_o => iadd_rs_v_o,
+		imul_v_o => imul_v_o,
+		imul_shift_o => imul_shift_o,
+		imul_signed_o => imul_signed_o,
+		imul_rcp_v_o => imul_rcp_v_o,
+		irol_v_o => irol_v_o,
+		irol_left_o => irol_left_o,
+		ixor_v_o => ixor_v_o,
+		iswap_v_o => iswap_v_o,
+		fswap_v_o => fswap_v_o,
+		fadd_v_o => fadd_v_o,
+		fadd_sub_o => fadd_sub_o,
+		fscal_v_o => fscal_v_o,
+		fmul_v_o => fmul_v_o,
+		fdiv_v_o => fdiv_v_o,
+		fsqrt_v_o => fsqrt_v_o,
+		cfround_v_o => cfround_v_o,
+		cbranch_v_o => cbranch_v_o,
+		istore_v_o => istore_v_o,
+		   
+		dst_v_o => dst_v_o,
+		dst_f_v_o => dst_f_v_o,
+		dst_reg_o => dst_reg_o,
+		dst_o => dst_o,
+		   
+		mem_v_o => mem_v_o,
+		mem_f_v_o => mem_f_v_o,
+		sp_lvl_o => sp_lvl_o,
+		   
+		src_v_o => src_v_o,
+		src_f_v_o => src_f_v_o,
+		src_reg_o => src_reg_o,
+		src_o => src_o,
+		isrc_override_v_o => isrc_override_v_o,
+		isrc_override_o => isrc_override_o,
+		mod_shift_o => mod_shift_o,
+		mod_cond_o => mod_cond_o,
+		imm32_o => imm32_o
         );
 
-   -- Clock process definitions
-   clk_process :process
-   begin
+	-- Clock process definitions
+	clk_process :process
+	begin
 		clk <= '0';
 		wait for clk_period/2;
 		clk <= '1';
 		wait for clk_period/2;
-   end process;
+	end process;
  
 
    -- Stimulus process
@@ -353,22 +352,22 @@ BEGIN
 
 	-- scratchpad level
 	--	condition 	         Scratchpad level
-	-- src == dst (read) 	   L3
-	-- mod.cond >= 14 (write) 	L3
+	-- src == dst (read) 	     L3
+	-- mod.cond >= 14 (write)    L3
 	-- mod.mem == 0 	         L2
 	-- mod.mem != 0 	         L1
-		-- read and mod mem == 0, src != dst
-		assert (src = dst) or (mem_v_o = '0') or (istore_v_o='1') or (mod_mem /= 0) or( debug_sp_lvl_L1='1' and debug_sp_lvl_L2='0' and debug_sp_lvl_L3='0' ) report "src != dst and read and mod_mem == 0: scratchpad level expecting L1" severity failure;
-		assert (src = dst) or (mem_v_o = '0') or (istore_v_o='1') or (mod_mem  = 0) or( debug_sp_lvl_L1='0' and debug_sp_lvl_L2='1' and debug_sp_lvl_L3='0' ) report "src != dst and read and mod_mem != 0: scratchpad level expecting L2" severity failure;
+	-- read and mod mem == 0, src != dst
+	assert (src = dst) or (mem_v_o = '0') or (istore_v_o='1') or (mod_mem /= 0) or( debug_sp_lvl_L1='1' and debug_sp_lvl_L2='0' and debug_sp_lvl_L3='0' ) report "src != dst and read and mod_mem == 0: scratchpad level expecting L1" severity failure;
+	assert (src = dst) or (mem_v_o = '0') or (istore_v_o='1') or (mod_mem  = 0) or( debug_sp_lvl_L1='0' and debug_sp_lvl_L2='1' and debug_sp_lvl_L3='0' ) report "src != dst and read and mod_mem != 0: scratchpad level expecting L2" severity failure;
 
-		-- if read and src == dst
-		assert (src /= dst) or (mem_v_o = '0') or (istore_v_o='1')or( debug_sp_lvl_L1='0' and debug_sp_lvl_L2='0' and debug_sp_lvl_L3='1' ) report "src == dst and read : scratchpad level expecting L3" severity failure;
+	-- if read and src == dst
+	assert (src /= dst) or (mem_v_o = '0') or (istore_v_o='1')or( debug_sp_lvl_L1='0' and debug_sp_lvl_L2='0' and debug_sp_lvl_L3='1' ) report "src == dst and read : scratchpad level expecting L3" severity failure;
 	-- write
 	assert (mem_v_o = '0') or (istore_v_o='0' and (mod_cond >= 14))or( debug_sp_lvl_L1='0' and debug_sp_lvl_L2='0' and debug_sp_lvl_L3='1' ) report "mod_cond>=14 and write : scratchpad level expecting L3" severity failure;
 
 
 	wait for 10 ns;
-	 end loop;
-	end process;
+	end loop;
+end process;
 
 END;
