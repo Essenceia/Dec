@@ -1,0 +1,9 @@
+*
+!doc
+!doc/**
+!*.md
+!*.v
+!*.vhd
+!.gitignore
+!.gitattribute
+!tv
