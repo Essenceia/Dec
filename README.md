@@ -12,12 +12,12 @@ Decoder logic, output is returned withing the same clock cycle.
 
 |instr|src reg|dst reg|src addr|inst logic|op min|op max|op min bin|op max bin|bit mask|notes|
 | --- | ---- | ------ | ----- | -------- | ----- | ---- | -------- | ------- | ------ | ---- |
-|IADD_RS|R|R|src = dst|dst = dst + (src << mod.shift) (+ imm32)|0|15|0|1111|0000XXXX|0XXX_XXXX & ~0111_11XX||"0|2578125"
+|IADD_RS|R|R|src = dst|dst = dst + (src << mod.shift) (+ imm32)|0|15|0|1111|0000XXXX|0XXX_XXXX & ~0111_11XX||"0,2578125"|
 |IADD_M|R|R|src = 0|dst = dst + [mem]|16|22|10000|10110|00010XXX & ~XXXXX111|
 |ISUB_R|R|R|src = imm32|dst = dst - src|23|38|10111|100110|0001_0111 | 0001_1XXX | ( XX10_0XXX & ~ XXXX_X111 )|
 |ISUB_M|R|R|src = 0|dst = dst - [mem]|39|45|100111|101101|0010_XXXX & ( XXXX_0111 | ( XXXX_1XXX & ~XXXX_X11X ) ) |
 |IMUL_R|R|R|src = imm32|dst = dst * src|46|61|101110|111101|10_111X | (11_XXXX & ~XX_111X )|
-|IMUL_M|R|R|src = 0|dst = dst * [mem]|62|65|111110|1000001|"lt64 : 11_111X| ge64 : 00_000X"|
+|IMUL_M|R|R|src = 0|dst = dst * [mem]|62|65|111110|1000001|"lt64 : 11_111X| ge64 : 00_000X"||:
 |IMULH_R_|R|R|src = dst|dst = (dst * src) >> 64|66|69|1000010|1000101|00_0XXX & ( 01X | ( 1XX & ~11X ) ) |
 |IMULH_M|R|R|src = 0|dst = (dst * [mem]) >> 64|70|70|1000110|1000110|8'b01000110|
 |ISMULH_R|R|R|src = dst|dst = (dst * src) >> 64 (signed)|71|74|1000111|1001010|00_XXXX & ( 0111 | ( 10XX & ~11 ) )|
